@@ -13,6 +13,7 @@ route.post("/addtask", async (req, res) => {
     const task = new Todo({ taskName, taskDescription });
     await task.save();
     res.send("task added successfully");
+    res.status(201).json({ task: task });
   } catch (error) {
     console.log(error);
     res.send(error);
