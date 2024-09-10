@@ -41,15 +41,21 @@ route.delete("/deleteTask/:id", async (req, res) => {
 
 route.put("/completeTask/:id", async (req, res) => {
   try {
-    const { taskId } = req.params;
-    const task = await Todo.findById(taskId);
+    let id = req.params.id;
+
+    const task = await Todo.findById(id);
     if (!task) {
-      return res.status(404).send({ message: "task not found" });
+      return res.status(404).send({ message: "Task not found" });
     }
+
     task.completed = true;
+
     await task.save();
+
+    res.status(200).send({ message: "Task completed", task });
   } catch (error) {
-    res.status(500).send({ message: "server error", error: error });
+    res.status(500).send({ message: "Server error", error });
   }
 });
+
 module.exports = route;
